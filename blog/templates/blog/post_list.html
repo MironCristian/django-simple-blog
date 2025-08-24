@@ -22,7 +22,9 @@
             <p>{{ post.content }}</p>
             <p><small>Publicat la: {{ post.created_at }}</small></p>
             <h2><a href="{% url 'post_detail' pk=post.pk %}">Catre Postare!</a></h2>
+            <h3>Like:  {{ post.total_likes }}</h3>
         </article>
+    </form>
         <hr>
     {% endfor %}
 </main>

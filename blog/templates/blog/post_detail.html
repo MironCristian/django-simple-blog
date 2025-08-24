@@ -13,21 +13,30 @@
 
     <hr>
     
-    <strong>Likes: {{ post.total_likes }}</strong>
+    <h3>
+        Likes: {{ post.total_likes }}
+        
+        {% if users_who_liked %}
+            | Liked by:
+            {% for user in users_who_liked %}
+                {{ user.username }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        {% endif %}
+    </h3>
 
-    <br><br>
+    <br>
     
     <form action="{% url 'like_post' post.pk %}" method="POST">
         {% csrf_token %}
         {% if user.is_authenticated %}
-        {% if liked %}
-        <button type="submit">Unlike</button>
+            {% if liked %}
+                <button type="submit">Unlike</button>
+            {% else %}
+                <button type="submit">Like</button>
+            {% endif %}
         {% else %}
-        <button type="submit">Like</button>
+            <p><a href="{% url 'admin:login' %}?next={{ request.path }}">Loghează-te</a> pentru a da like!</p>
         {% endif %}
-    {%else%}
-        <p><a href="{% url 'admin:login' %}?next={{ request.path }}">Logheaza-te</a>pentru a da like!</p>
-    {% endif %}
     </form>
     
     <br>
